@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+
+:root {
+  --background-color: #FFFFFF;
+  --background-100: #F0F0F2;
+  --background-200: #E9EAF9;
+  --text-color: #090A0D;     
+  --secondary-text-color: #52545D;     
+  --primary-color: hsl(197 92% 56%);
+  /* --primary-color: #07C26B; */
+  --primary-hover: #52545D;
+  --secondary-color: #FEA53E;
+  --button-text: #FFFFFF;
+  --border-color: #64748B;
+}
+
+*[data-theme='dark'] {
+  --background-color: #171920;
+  --background-100: #131417;
+  --background-200: #20212A;
+  --text-color: #FFFFFF;     
+  --secondary-text-color: #52545D;     
+  --primary-color: hsl(197 92% 56%);
+  --primary-hover: #52545D;
+  --secondary-color: #FEA53E;
+  --button-text: #FFFFFF;
+  --border-color: #64748B;
+}
+
+.bg-background {
+  background-color: var(--background-color);
+  /* transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+  -moz-transition: all 0.1s; */
+}
+
+.border-header{
+  border-color:  var(--background-200);
+}
+
+.bg-background-100 {
+  background-color: var(--background-100);
+}
+
+.bg-background-200 {
+  background-color: var(--background-200);
+}
+
+.text-text {
+  color: var(--text-color);
+}
+
+.text-secondary-text {
+  color: var(--secondary-text-color);
+}
+
+.bg-text {
+  background-color: var(--text-color);
+}
+
+.text-primary {
+  color: var(--primary-color);
+}
+
+.border-primary {
+  border-color:  var(--primary-color);
+}
+.text-primary:hover {
+  color: var(--primary-hover);
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--secondary-color);
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color);
+}
+
+.text-button-text {
+  color: var(--button-text);
+}
+
+.border-text {
+  border-color: var(--text-color);
+}
+
+.text-button-text:hover {
+  color: var(--button-hover);
+}
+
+.border-border {
+  border-color: var(--border-color);
+}
+
+
+@font-face {
+  font-family: 'font-IT';
+  src: url('/tt_octosquares/TT Octosquares Trial Condensed Medium.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.ps-sidebar-root {
+  border: none !important;
+}
+
+.ps-sidebar-container {
+  border-radius: 10px !important;
+}
+
+/*----------------- Wallet button----------------- */
+.wallet-btn {
+  border-radius: 6px;
+  border-color: none;
+  background: var(--linear, linear-gradient(225deg, #0DC89C 0%, #5EFDFC 100%));
+}
+
+.wallet-btn:hover {
+  border-radius: 6px;
+  background: linear-gradient(225deg, rgba(13, 200, 156, 0.50) 0%, rgba(94, 253, 252, 0.50) 100%);
+  backdrop-filter: blur(7.5px);
+}
+
+.wallet-adapter-button.wallet-custom {
+  background: var(--linear, linear-gradient(225deg, #0DC89C 0%, #5EFDFC 100%));
+  /* background: #022626; */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: 6px;
+  padding-right: 1rem !important;
+  padding-left: 1rem !important;
+  padding-top: 0.rem;
+  padding-bottom: 0.1rem;
+  position: relative;
+}
+
+.wallet-adapter-dropdown {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .wallet-adapter-button.wallet-custom {
+    height: 2.75rem !important;
+  }
+}
+
+.wallet-adapter-button.wallet-custom::before {
+  background: #fdfdfd;
+  content: var(--tw-content);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border-radius: 0.75em;
+}
+
+.wallet-adapter-button.wallet-custom:not([disabled]):hover {
+  background: linear-gradient(225deg, rgba(13, 200, 156, 0.50) 0%, rgba(94, 253, 252, 0.50) 100%);
+
+  box-shadow: 0px 13.137px 21.895px rgba(0, 0, 0, 0.09);
+}
+
+.wallet-adapter-button.wallet-custom:not([disabled]):hover::before {
+  opacity: 0.05;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.329);
+  border-radius: 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #00000013;
+}
