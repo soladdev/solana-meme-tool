@@ -3,12 +3,12 @@ import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
 const storeResetter: {
-  name?: string
-  reset: (replaceState?: Record<string, any>) => void
-}[] = []
+  name?: string;
+  reset: (replaceState?: Record<string, unknown>) => void;
+}[] = [];
 
 // e.g. resetAllStore({ useAppStore: { raydium: useAppStore.getState().raydium, rpcNodeUrl: 'https://xxx' } })
-export const resetAllStore = (props?: { [key: string]: Record<string, any> }) => {
+export const resetAllStore = (props?: { [key: string]: Record<string, unknown> }) => {
   storeResetter.forEach((f) => f.reset(f.name && props ? props[f.name] : undefined))
 }
 
@@ -63,7 +63,7 @@ const createStore = <T>(
   const initState = store.getState()
   storeResetter.push({
     name,
-    reset: (replaceState?: Record<string, any>) => {
+    reset: (replaceState?: Record<string, unknown>) => {
       store.setState({ ...initState, ...(replaceState || {}) }, true, { type: 'reset' })
     }
   })

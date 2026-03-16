@@ -2,9 +2,9 @@ import React, { createContext, useEffect, useState, ReactNode, useContext } from
 
 interface AppContextProps {
   sideToggle: boolean;
-  setSideToggle?: any;
+  setSideToggle?: (value: boolean | ((prev: boolean) => boolean)) => void;
   collapsed: boolean;
-  setCollapsed?: any
+  setCollapsed?: (value: boolean | ((prev: boolean) => boolean)) => void;
 }
 
 export const AppContext = createContext<AppContextProps>({

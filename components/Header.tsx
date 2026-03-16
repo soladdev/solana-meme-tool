@@ -12,34 +12,23 @@ import { useDisclosure } from "@heroui/react";
 import { MdMarkEmailUnread } from "react-icons/md";
 import { PiTelegramLogoDuotone } from "react-icons/pi";
 
+const PAGE_TITLES: Record<string, string> = {
+  "/": "Token Launch on Pump.fun",
+  "/launch": "Token Launch on Pump.fun",
+  "/copy-trade": "Copy Trading",
+  "/sniper": "Snipping on Raydium",
+  "/bundle-buy": "Bundle Buy",
+  "/limit-order": "Limit Order",
+  "/trenches": "Trenches",
+  "/volume-boost": "Volume Booster on Pump.fun",
+  "/control": "Token Detail",
+  "/wallet-check": "Wallet Risk Score Prediction",
+};
+
 export default function Header() {
   const { sideToggle, setSideToggle } = useContext(AppContext);
-
-  const getPageTitle = () => {
-    const router = useRouter();
-    switch (router.pathname) {
-      case "/":
-        return "Token Launch on Pump.fun";
-      case "/launch": 
-        return "Token Launch on Pump.fun"
-      case "/copy-trade":
-        return "Copy Trading";
-      case "/sniper":
-        return "Snipping on Raydium";
-      case "/bundle-buy":
-        return "Bundle Buy"
-      case "/limit-order":
-        return "Limit Order";
-      case "/trenches":
-        return "Trenches";
-      case "/volume-boost":
-        return "Volume Booster on Pump.fun"
-      case "/control":
-        return "Token Detail";
-      case "/wallet-check":
-        return "Wallet Risk Score Prediction"
-    }
-  };
+  const router = useRouter();
+  const pageTitle = PAGE_TITLES[router.pathname] ?? "Token Launch on Pump.fun";
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -49,7 +38,7 @@ export default function Header() {
           <HamburgerIcon className="text-text" />
         </div>
         <span className="sm:block hidden font-bold text-[24px] text-text xl:text-[24px] 2xl:text-[24px]">
-          {getPageTitle()}
+          {pageTitle}
         </span>
       </div>
       <div className="flex items-center gap-2">

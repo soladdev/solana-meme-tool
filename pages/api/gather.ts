@@ -25,7 +25,7 @@ export default async function handler(
                         mainWalletAddress: Keypair.fromSecretKey(bs58.decode(mainWallet)).publicKey.toBase58(),
                     }).then(async (walletGroupData: any) => {
                         if (!walletGroupData) {
-                            res.status(404).json({ result: true, content: "Data doesn't exist" })
+                            return res.status(404).json({ result: false, content: "Data doesn't exist" });
                         }
                         const wallets = walletGroupData.generatedWalletsArray.split(",");
                         console.log("🚀 ~ handler ~ wallets:", wallets)

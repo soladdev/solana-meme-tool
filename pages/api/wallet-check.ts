@@ -1,7 +1,4 @@
-import { volumeBoosting } from '@/base/volume';
 import type { NextApiRequest, NextApiResponse } from "next";
-import CryptoJS from "crypto-js";
-import { redisClient } from '@/lib/redis';
 import { solanaConnection } from '@/lib/constant';
 import { getWalletRiskScore } from '@/base/wallet-check';
 
@@ -11,19 +8,21 @@ export default async function handler(
 ) {
     // if already running, stop it
 
+    if (req.method !== "POST") {
+        return res.status(405).json({ error: "Method not allowed" });
+    }
+
     try {
         const { walletAddress } = req.body;
-        console.log("🚀 ~ handler ~ walletAddress:", walletAddress)
-        try {
-            const { score, reasons, features } = await getWalletRiskScore(solanaConnection, walletAddress);
-            console.log(`Risk Score: ${score}/100`);
-            console.log('Reasons:', reasons.join(', '));
-            res.json({ score, reasons, features })
-        } catch (error) {
-            console.log(error)
-            res.status(500).json({ result: false, content: error })
+        if (!walletAddress) {
+            return res.status(400).json({ error: "walletAddress is required" });
         }
+
+        const { score, reasons, features } = await getWalletRiskScore(solanaConnection, walletAddress);
+        return res.json({ score, reasons, features });
     } catch (error) {
-        console.log(error)
+        console.error("Wallet check error:", error);
+        const message = error instanceof Error ? error.message : "Unknown error";
+        return res.status(500).json({ result: false, error: message });
     }
 }

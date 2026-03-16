@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import formidable, { File } from 'formidable';
+import formidable from 'formidable';
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
@@ -27,14 +27,28 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
   try {
-    if (req.method == "POST") {
       try {
         const { files } = await parseForm(req);
-        const file: any = Array.isArray(files.file) ? files.file[0] : files.file;
+        const file = Array.isArray(files.file) ? files.file[0] : files.file;
+        if (!file || !file.filepath) {
+          return res.status(400).json({ error: "No file provided" });
+        }
 
-        // Generate a unique filename by combining UUID and original extension
-        const originalFilename = file.originalFilename || 'unknown';
+        const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+        const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+        if (file.size && file.size > MAX_SIZE) {
+          return res.status(400).json({ error: "File size exceeds 5MB limit" });
+        }
+        if (file.mimetype && !ALLOWED_TYPES.includes(file.mimetype)) {
+          return res.status(400).json({ error: "Invalid file type. Allowed: JPEG, PNG, GIF, WebP" });
+        }
+
+        const originalFilename = file.originalFilename || "unknown";
         const fileExtension = path.extname(originalFilename); // Get file extension
         const uniqueFilename = `${uuidv4()}${fileExtension}`; // Create unique filename
 
@@ -50,14 +64,13 @@ export default async function handler(
 
         fs.writeFileSync(newFilePath, data);
 
-        res.status(200).json({ message: 'File uploaded successfully', filename: uniqueFilename });
-      } catch (error: any) {
-        console.error('Error uploading file:', error);
-        res.status(500).json({ error: 'File upload failed' });
+        return res.status(200).json({ message: "File uploaded successfully", filename: uniqueFilename });
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        return res.status(500).json({ error: "File upload failed" });
       }
-
-    }
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Upload failed";
+    return res.status(500).json({ error: message });
   }
 }

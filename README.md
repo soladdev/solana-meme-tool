@@ -2,6 +2,8 @@
 
 Meme Tool is an opinionated automation stack for Solana meme-coin launches and post-launch trading. The app wraps bundled token deployments, high-frequency trading automations, copy trading, and risk analytics into a single operational dashboard built with Next.js 14.
 
+**Repository:** [github.com/soladdev/solana-meme-tool](https://github.com/soladdev/solana-meme-tool)
+
 ## Feature Highlights
 
 - **Launchpad with Bundled Liquidity** – Create pump.fun tokens, upload creative assets, attach socials, and immediately provision sniper wallets through the launch flow in `pages/launch` and the `PumpBundleModal` component. Bundle buys and initial liquidity distribution are executed server-side for consistent debuts.

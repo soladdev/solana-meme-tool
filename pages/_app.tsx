@@ -40,7 +40,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
-    setIsClient(true)
+    setIsClient(true);
   }, []);
 
   const wallets = useMemo(
